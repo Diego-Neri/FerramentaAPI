@@ -13,7 +13,7 @@ namespace FerramentaAPI.Domain.Entities {
             : base(endereco, descricao, diametro, altura, TipoFerramenta.VBit) {
         }
 
-        public override string Path() => "subir nos cantos";
+        public override string Path() => "Subir nos cantos";
     }
 }
 

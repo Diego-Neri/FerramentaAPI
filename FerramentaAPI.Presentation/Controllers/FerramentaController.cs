@@ -17,13 +17,12 @@ namespace FerramentaAPI.Presentation.Controllers {
             return Ok(_service.GetAllFerramentas());
         }
 
+
         [HttpGet("{id}")]
         public ActionResult<FerramentaDTO> Get(int id) {
             var ferramenta = _service.GetFerramentaById(id);
-            if (ferramenta == null) {
-                return NotFound();
-            }
-            return Ok(ferramenta);
+            //Retorna notfound se a ferramenta não existir, caso contrário, retorna a ferramenta
+            return ferramenta == null ? NotFound("Ferramenta não encontrada.") : Ok(ferramenta);
         }
 
         [HttpPost]
@@ -35,13 +34,13 @@ namespace FerramentaAPI.Presentation.Controllers {
         [HttpPut("{id}")]
         public ActionResult Update(int id, FerramentaCreateDTO ferramentaDto) {
             _service.UpdateFerramenta(id, ferramentaDto);
-            return NoContent();
+            return _service == null ? NotFound("Ferramenta não encontrada") : Ok(ferramentaDto);
         }
 
         [HttpDelete("{id}")]
         public ActionResult Delete(int id) {
             _service.DeleteFerramenta(id);
-            return NoContent();
+            return _service == null ? NotFound("Ferramenta não encontrada") : Ok();
         }
     }
 }
