@@ -1,0 +1,6 @@
+@FerramentaAPI.Presentation_HostAddress = http://localhost:5098
+
+GET {{FerramentaAPI.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
