@@ -12,6 +12,6 @@ namespace FerramentaAPI.Domain.Entities {
             : base(endereco, descricao, diametro, altura, TipoFerramenta.TopoRaso) {
         }
 
-        public override string Path() => "caminho tradicional";
+        public override string Path() => "Caminho tradicional";
     }
 }

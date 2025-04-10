@@ -19,5 +19,15 @@ namespace FerramentaAPI.Domain.Test {
             Assert.Equal("Subir nos cantos", vbit.Path());
         }
 
+        [Fact]
+        public void TopoRaso_Path_RetornarCaminhoTradicional() {
+
+            //Arrange
+            var endereco = new EnderecoFerramenta("Rua A, 123");
+            var descricao = new Descricao("Ferramenta de teste");
+            var topoRaso = new TopoRaso(endereco, descricao, 10, 10);
+            Assert.Equal("Caminho tradicional", topoRaso.Path());
+        }
+
     }
 }
