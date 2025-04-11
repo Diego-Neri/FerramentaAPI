@@ -1,6 +1,6 @@
 # FerramentaAPI
 
-**FerramentaAPI** é uma API RESTful desenvolvida em C# com .NET 8, projetada para gerenciar o cadastro de ferramentas conforme os requisitos do teste para o cargo de Desenvolvedor Júnior. A API implementa operações CRUD (Create, Read, Update, Delete) para ferramentas, com validações específicas e suporte a diferentes tipos de ferramentas (`VBit` e `TopoRaso`), utilizando uma abordagem baseada em Clean Architecture.
+**FerramentaAPI** é uma API RESTful desenvolvida em C# com .NET 8, projetada para gerenciar o cadastro de ferramentas. A API implementa operações CRUD (Create, Read, Update, Delete) para ferramentas, com validações específicas e suporte a diferentes tipos de ferramentas (`VBit` e `TopoRaso`), utilizando uma abordagem baseada em Clean Architecture.
 
 ## Funcionalidades
 
@@ -17,7 +17,7 @@
     - `TopoRaso`: "caminho tradicional".
 
 - **Validações**: Implementadas no domínio para garantir que os dados atendam aos requisitos.
-- **Armazenamento**: Repositório em memória (conforme permitido pelo teste).
+- **Armazenamento**: Repositório em memória.
 - **Testes Unitários**: Cobertura para o domínio, aplicação e infraestrutura.
 - **Tratamento de Erros**: Respostas JSON claras com mensagens de erro específicas (ex.: "Diâmetro deve ser maior que zero e menor que 100.").
 
