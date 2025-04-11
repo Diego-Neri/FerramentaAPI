@@ -11,6 +11,11 @@ namespace FerramentaAPI.Presentation.Controllers {
         public FerramentaController(IFerramentaService service) {
             _service = service;
         }
+        [HttpPost]
+        public ActionResult Add(FerramentaCreateDTO ferramentaDto) {
+            _service.AddFerramenta(ferramentaDto);
+            return CreatedAtAction(nameof(Get), new { id = ferramentaDto.GetHashCode() }, ferramentaDto);
+        }
 
         [HttpGet]
         public ActionResult<IEnumerable<FerramentaDTO>> Get() {
@@ -25,11 +30,6 @@ namespace FerramentaAPI.Presentation.Controllers {
             return ferramenta == null ? NotFound("Ferramenta não encontrada.") : Ok(ferramenta);
         }
 
-        [HttpPost]
-        public ActionResult Add(FerramentaCreateDTO ferramentaDto) {
-            _service.AddFerramenta(ferramentaDto);
-            return CreatedAtAction(nameof(Get), new { id = ferramentaDto.GetHashCode() }, ferramentaDto);
-        }
 
         [HttpPut("{id}")]
         public ActionResult Update(int id, FerramentaCreateDTO ferramentaDto) {
