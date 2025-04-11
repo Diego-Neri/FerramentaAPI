@@ -53,6 +53,7 @@ namespace Application.Services {
 
         public void DeleteFerramenta(int id) {
             _ferramentaRepository.Delete(id);
+            throw new ArgumentException("Ferramenta não encontrada.");
         }
 
         private FerramentaDTO MapToDto(IFerramenta ferramenta) {
