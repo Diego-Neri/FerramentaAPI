@@ -1,10 +1,5 @@
 ﻿using FerramentaAPI.Infra.Data;
 using FerramentaAPI.Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FerramentaAPI.Domain.ValueObjects;
 
 namespace FerramentaAPI.Infra.Test {

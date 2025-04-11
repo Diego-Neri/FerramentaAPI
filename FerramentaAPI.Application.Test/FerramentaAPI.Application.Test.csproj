@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Application\FerramentaAPI.Application.csproj" />
     <ProjectReference Include="..\FerramentaAPI.Infra.Crud\FerramentaAPI.Infra.Test.csproj" />
   </ItemGroup>
 
