@@ -1,7 +1,8 @@
 using Application.Interfaces;
 using Application.Services;
 using FerramentaAPI.Domain.Interfaces;
-using FerramentaAPI.Infra.Data; 
+using FerramentaAPI.Infra.Data;
+using FerramentaAPI.Presentation.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 builder.Services.AddSingleton<IFerramentaRepository, InMemoryFerramentaRepository>(); 
 builder.Services.AddSingleton<IFerramentaService, FerramentaService>();
 builder.Services.AddEndpointsApiExplorer();
