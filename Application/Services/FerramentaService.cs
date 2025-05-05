@@ -1,8 +1,10 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
 using FerramentaAPI.Domain.Entities;
+using FerramentaAPI.Domain.Enums;
 using FerramentaAPI.Domain.Interfaces;
 using FerramentaAPI.Domain.ValueObjects;
+using FerramentaAPI.Infra.Logs;
 using System;
 using System.Linq;
 
@@ -10,9 +12,11 @@ using System.Linq;
 namespace Application.Services {
     public class FerramentaService : IFerramentaService {
         private readonly IFerramentaRepository _ferramentaRepository;
+        private readonly DiscordLogs _discordLogs;
 
-        public FerramentaService(IFerramentaRepository ferramentaRepository) {
+        public FerramentaService(IFerramentaRepository ferramentaRepository, DiscordLogs discordLogs) {
             _ferramentaRepository = ferramentaRepository;
+            _discordLogs = discordLogs;
         }
 
         public FerramentaDTO GetFerramentaById(int id) {
@@ -34,6 +38,7 @@ namespace Application.Services {
             };
 
             _ferramentaRepository.Add(novaferramenta);
+            _discordLogs.LogsAsync($"Ferramenta adicionada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
         }
 
         public void UpdateFerramenta(int id, FerramentaCreateDTO ferramentaDTO) {
@@ -49,11 +54,13 @@ namespace Application.Services {
                 _ => throw new ArgumentException("Tipo de ferramenta inválido.")
             };
             _ferramentaRepository.Update(ferramenta);
+            _discordLogs.LogsAsync($"Ferramenta atualizada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
         }
 
         public void DeleteFerramenta(int id) {
             _ferramentaRepository.Delete(id);
             throw new ArgumentException("Ferramenta não encontrada.");
+            _discordLogs.LogsAsync($"Ferramenta deletada: {id}", "INFO");
         }
 
         private FerramentaDTO MapToDto(IFerramenta ferramenta) {

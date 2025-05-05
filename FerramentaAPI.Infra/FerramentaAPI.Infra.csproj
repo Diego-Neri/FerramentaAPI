@@ -10,8 +10,4 @@
     <ProjectReference Include="..\FerramentaAPI.Domain\FerramentaAPI.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-
 </Project>

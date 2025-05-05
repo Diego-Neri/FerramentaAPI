@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FerramentaAPI.Domain\FerramentaAPI.Domain.csproj" />
+    <ProjectReference Include="..\FerramentaAPI.Infra\FerramentaAPI.Infra.csproj" />
   </ItemGroup>
 
 </Project>
