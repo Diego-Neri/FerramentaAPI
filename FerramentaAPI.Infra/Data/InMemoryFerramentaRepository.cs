@@ -26,7 +26,7 @@ namespace FerramentaAPI.Infra.Data {
             return _ferramentas;
         }
 
-        public void Update(IFerramenta ferramenta) {
+        public void Update(IFerramenta ferramenta, int id) {
             var existing = GetById(ferramenta.GetHashCode());
             if (existing != null) {
                 _ferramentas.Remove(existing);
@@ -34,7 +34,7 @@ namespace FerramentaAPI.Infra.Data {
             }
         }
 
-        public void Delete(int id) {
+        public void Delete(IFerramenta ferramente, int id) {
             var ferramenta = GetById(id);
             if (ferramenta != null) {
                 _ferramentas.Remove(ferramenta);

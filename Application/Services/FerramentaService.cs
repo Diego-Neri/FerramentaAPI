@@ -53,13 +53,17 @@ namespace Application.Services {
                 FerramentaAPI.Domain.Enums.TipoFerramenta.TopoRaso => new TopoRaso(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
                 _ => throw new ArgumentException("Tipo de ferramenta inválido.")
             };
-            _ferramentaRepository.Update(ferramenta);
+            _ferramentaRepository.Update(ferramenta, id);
             _discordLogs.LogsAsync($"Ferramenta atualizada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
         }
 
-        public void DeleteFerramenta(int id) {
-            _ferramentaRepository.Delete(id);
-            throw new ArgumentException("Ferramenta não encontrada.");
+        public void DeleteFerramenta(int id)
+        {
+            var ferramenta = _ferramentaRepository.GetById(id);
+            if (ferramenta == null) {
+                throw new ArgumentException("Ferramenta não encontrada.");
+            }
+            _ferramentaRepository.Delete(ferramenta, id);
             _discordLogs.LogsAsync($"Ferramenta deletada: {id}", "INFO");
         }
 
