@@ -10,8 +10,8 @@ namespace Application.Interfaces {
 
         FerramentaDTO GetFerramentaById(int id);
         IEnumerable<FerramentaDTO> GetAllFerramentas();
-        void AddFerramenta(FerramentaCreateDTO ferramentaDTO);
-        void UpdateFerramenta(int id, FerramentaCreateDTO ferramentaDTO);
-        void DeleteFerramenta(int id);
+        Task AddFerramenta(FerramentaCreateDTO ferramentaDTO);
+        Task UpdateFerramenta(int id, FerramentaCreateDTO ferramentaDTO);
+        Task DeleteFerramenta(int id);
     }
 }

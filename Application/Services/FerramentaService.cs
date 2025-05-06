@@ -19,29 +19,30 @@ namespace Application.Services {
             _discordLogs = discordLogs;
         }
 
-        public FerramentaDTO GetFerramentaById(int id) {
+        public FerramentaDTO GetFerramentaById(int id)
+        {
             var ferramenta = _ferramentaRepository.GetById(id);
-            return ferramenta == null ? null : MapToDto(ferramenta);
+            return ferramenta == null ? new FerramentaDTO() : MapToDto(ferramenta);
         }
 
         public IEnumerable<FerramentaDTO> GetAllFerramentas() {
             return _ferramentaRepository.GetAll().Select(MapToDto);
         }
 
-        public void AddFerramenta(FerramentaCreateDTO ferramentaDTO) {
+        public async Task AddFerramenta(FerramentaCreateDTO ferramentaDTO) {
             var endereco = new EnderecoFerramenta(ferramentaDTO.Endereco);
             var descricao = new Descricao(ferramentaDTO.Descricao);
             IFerramenta novaferramenta = ferramentaDTO.Tipo switch {
-                FerramentaAPI.Domain.Enums.TipoFerramenta.VBit => new VBit(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
-                FerramentaAPI.Domain.Enums.TipoFerramenta.TopoRaso => new TopoRaso(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
+                TipoFerramenta.VBit => new VBit(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
+                TipoFerramenta.TopoRaso => new TopoRaso(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
                 _ => throw new ArgumentException("Tipo de ferramenta inválido.")
             };
 
             _ferramentaRepository.Add(novaferramenta);
-            _discordLogs.LogsAsync($"Ferramenta adicionada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
+            await _discordLogs.LogsAsync($"Ferramenta adicionada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
         }
 
-        public void UpdateFerramenta(int id, FerramentaCreateDTO ferramentaDTO) {
+        public async Task UpdateFerramenta(int id, FerramentaCreateDTO ferramentaDTO) {
             var ferramenta = _ferramentaRepository.GetById(id);
             if (ferramenta == null) {
                 throw new ArgumentException("Ferramenta não encontrada.");
@@ -49,23 +50,23 @@ namespace Application.Services {
             var endereco = new EnderecoFerramenta(ferramentaDTO.Endereco);
             var descricao = new Descricao(ferramentaDTO.Descricao);
             IFerramenta novaferramenta = ferramentaDTO.Tipo switch {
-                FerramentaAPI.Domain.Enums.TipoFerramenta.VBit => new VBit(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
-                FerramentaAPI.Domain.Enums.TipoFerramenta.TopoRaso => new TopoRaso(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
+                TipoFerramenta.VBit => new VBit(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
+                TipoFerramenta.TopoRaso => new TopoRaso(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
                 _ => throw new ArgumentException("Tipo de ferramenta inválido.")
             };
             _ferramentaRepository.Update(ferramenta, id);
-            _discordLogs.LogsAsync($"Ferramenta atualizada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
+            await _discordLogs.LogsAsync($"Ferramenta atualizada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
         }
 
-        public void DeleteFerramenta(int id)
+        public async Task DeleteFerramenta(int id)
         {
             var ferramenta = _ferramentaRepository.GetById(id);
-            if (ferramenta is null) {
-                return Result.Error("Ferramenta não encontrada.");
-                //throw new ArgumentException("Ferramenta não encontrada.");
+            if (ferramenta == null) {
+                //return Result.Error("Ferramenta não encontrada.");
+                throw new ArgumentException("Ferramenta não encontrada.");
             }
-            _ferramentaRepository.Delete(ferramenta, id);
-            _discordLogs.LogsAsync($"Ferramenta deletada: {id}", "INFO");
+           _ferramentaRepository.Delete(ferramenta, id);
+           await _discordLogs.LogsAsync($"Ferramenta deletada: {id}", "INFO");
         }
 
         private FerramentaDTO MapToDto(IFerramenta ferramenta) {
