@@ -60,8 +60,9 @@ namespace Application.Services {
         public void DeleteFerramenta(int id)
         {
             var ferramenta = _ferramentaRepository.GetById(id);
-            if (ferramenta == null) {
-                throw new ArgumentException("Ferramenta não encontrada.");
+            if (ferramenta is null) {
+                return Result.Error("Ferramenta não encontrada.");
+                //throw new ArgumentException("Ferramenta não encontrada.");
             }
             _ferramentaRepository.Delete(ferramenta, id);
             _discordLogs.LogsAsync($"Ferramenta deletada: {id}", "INFO");
