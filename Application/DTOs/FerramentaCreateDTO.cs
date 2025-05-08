@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.DTOs {
     public class FerramentaCreateDTO {
+        public int Id { get; set; }
         public string Endereco { get; set; }
         public string Descricao { get; set; }
         public double Diametro { get; set; }

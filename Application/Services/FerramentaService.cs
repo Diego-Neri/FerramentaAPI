@@ -23,7 +23,8 @@ namespace Application.Services {
         public FerramentaDTO GetFerramentaById(int id)
         {
             var ferramenta = _ferramentaRepository.GetById(id);
-            return ferramenta == null ? new FerramentaDTO() : MapToDto(ferramenta);
+            return ferramenta == null ? null : MapToDto(ferramenta);
+
         }
 
         public IEnumerable<FerramentaDTO> GetAllFerramentas() {

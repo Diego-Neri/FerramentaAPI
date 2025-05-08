@@ -1,7 +1,10 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
 using FerramentaAPI.Application.Result;
+using FerramentaAPI.Infra.Logs;
+using FerramentaAPI.Infra.Enums;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FerramentaAPI.Presentation.Controllers
 {
@@ -11,15 +14,17 @@ namespace FerramentaAPI.Presentation.Controllers
     public class FerramentaController : ControllerBase
     {
         private readonly IFerramentaService _service;
-        public FerramentaController(IFerramentaService service)
+        private readonly DiscordLogs _discordLogs;
+        public FerramentaController(IFerramentaService service, DiscordLogs discord)
         {
+            _discordLogs = discord;
             _service = service;
         }
         [HttpPost]
         public ActionResult Add(FerramentaCreateDTO ferramentaDto)
         {
             _service.AddFerramenta(ferramentaDto);
-            return CreatedAtAction(nameof(Get), new { id = ferramentaDto.GetHashCode() }, ferramentaDto);
+            return CreatedAtAction(nameof(Get), new { id = ferramentaDto.Id }, ferramentaDto);
         }
 
         [HttpGet]
@@ -30,25 +35,37 @@ namespace FerramentaAPI.Presentation.Controllers
 
 
         [HttpGet("{id}")]
-        public ActionResult<FerramentaDTO> Get(int id)
+        public async Task<ActionResult<FerramentaDTO>> Get(int id, DateTime data)
         {
             var ferramenta = _service.GetFerramentaById(id);
-            //Retorna notfound se a ferramenta não existir, caso contrário, retorna a ferramenta
-            return ferramenta == null ? NotFound("Ferramenta não encontrada.") : Ok(ferramenta);
+            if (ferramenta == null) {
+                await _discordLogs.LogsAsync($"Ferramenta {id} não encontrada. DATA: {data} ", Infra.Enums.LogLevel.WARNING);
+                return NotFound("Ferramenta não encontrada.");
+            }
+            return Ok(ferramenta);
         }
 
 
         [HttpPut("{id}")]
-        public ActionResult Update(int id, FerramentaCreateDTO ferramentaDto) {
-            _service.UpdateFerramenta(id, ferramentaDto);
-            return _service == null ? NotFound("Ferramenta não encontrada") : Ok(ferramentaDto);
+        public async Task<ActionResult> Update(int id, FerramentaCreateDTO ferramentaDto, DateTime data)
+        {
+            var ferramenta = _service.UpdateFerramenta(id, ferramentaDto);
+            if (ferramenta == null) {
+                await _discordLogs.LogsAsync($"Ferramenta {id} não encontrada. DATA: {data} ", Infra.Enums.LogLevel.WARNING);
+                return NotFound("Ferramenta não encontrada");
+            }
+            return Ok(ferramentaDto);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id, DateTime data)
         {
-            _service.DeleteFerramenta(id);
-            return _service == null ? NotFound("Ferramenta não encontrada") : Ok();
+          var ferramenta = _service.DeleteFerramenta(id);
+            if (ferramenta == null) {
+             await _discordLogs.LogsAsync($"Ferramenta {id} não encontrada. DATA: {data} ", Infra.Enums.LogLevel.WARNING);
+                return NotFound("Ferramenta não encontrada");
+            }
+            return Ok();
         }
     }
 }
