@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using FerramentaAPI.Infra.Enums;
+using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,11 +16,10 @@ namespace FerramentaAPI.Infra.Logs
         {
             _webhookUrl = webhookUrl;
         }
-
-        public async Task LogsAsync(string message, string level = "INFO")
+        public async Task LogsAsync(string message, LogLevel loglevel)
         {
             var payload = new {
-                content = $"**[{level}]** {message}"
+                content = $"**[{loglevel}]** {message}"
             };
 
             string json = JsonSerializer.Serialize(payload);
