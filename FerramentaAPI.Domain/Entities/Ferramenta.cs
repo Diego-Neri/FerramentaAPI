@@ -8,7 +8,7 @@ using FerramentaAPI.Domain.Enums;
 
 namespace FerramentaAPI.Domain.Entities {
     public abstract class Ferramenta : IFerramenta {
-
+        public int Id { get; set; }
         public EnderecoFerramenta Endereco { get;  set; }
         public Descricao Descricao { get;  set; }
         public double Diametro { get; set; }

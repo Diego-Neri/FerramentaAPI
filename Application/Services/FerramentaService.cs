@@ -54,7 +54,9 @@ namespace Application.Services {
                 TipoFerramenta.TopoRaso => new TopoRaso(endereco, descricao, ferramentaDTO.Diametro, ferramentaDTO.Altura),
                 _ => throw new ArgumentException("Tipo de ferramenta inválido.")
             };
-            _ferramentaRepository.Update(ferramenta, id);
+
+            novaferramenta.GetType().GetProperty("Id")?.SetValue(novaferramenta, id);
+            _ferramentaRepository.Update(novaferramenta);
             await _discordLogs.LogsAsync($"Ferramenta atualizada: Endereço: {novaferramenta.Endereco.Valor} - Descrição: {novaferramenta.Descricao.Valor} - Tipo: {novaferramenta.Tipo}", "INFO");
         }
 
@@ -71,7 +73,7 @@ namespace Application.Services {
 
         private FerramentaDTO MapToDto(IFerramenta ferramenta) {
             return new FerramentaDTO {
-                Id = ferramenta.GetHashCode(),
+                Id = ferramenta.Id,
                 Endereco = ferramenta.Endereco.Valor,
                 Descricao = ferramenta.Descricao.Valor,
                 Diametro = ferramenta.Diametro,

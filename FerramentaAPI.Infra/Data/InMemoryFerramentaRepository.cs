@@ -19,23 +19,24 @@ namespace FerramentaAPI.Infra.Data {
         }
 
         public IFerramenta GetById(int id) {
-            return _ferramentas.FirstOrDefault(f => f.GetHashCode() == id);
+            return _ferramentas.FirstOrDefault(f => f.Id == id);
         }
 
         public IEnumerable<IFerramenta> GetAll() {
             return _ferramentas;
         }
 
-        public void Update(IFerramenta ferramenta, int id) {
-            var existing = GetById(ferramenta.GetHashCode());
-            if (existing != null) {
-                _ferramentas.Remove(existing);
-                _ferramentas.Add(ferramenta);
+        public void Update(IFerramenta ferramenta)
+        {
+            var index = _ferramentas.FindIndex(f => f.Id == ferramenta.Id);
+            if (index == -1) {
+                throw new KeyNotFoundException("Ferramenta não encontrada.");
             }
+            _ferramentas[index] = ferramenta;
         }
 
-        public void Delete(IFerramenta ferramente, int id) {
-            var ferramenta = GetById(id);
+        public void Delete(IFerramenta ferramenta, int id) {
+            var ferramenta1 = GetById(id);
             if (ferramenta != null) {
                 _ferramentas.Remove(ferramenta);
             }

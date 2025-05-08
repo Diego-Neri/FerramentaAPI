@@ -10,7 +10,7 @@ namespace FerramentaAPI.Domain.Interfaces {
         void Add(IFerramenta ferramenta);
         IFerramenta GetById(int id);
         IEnumerable<IFerramenta> GetAll();
-        void Update(IFerramenta ferramenta, int id);
+        void Update(IFerramenta ferramenta);
         void Delete(IFerramenta ferramenta, int id);
     }
 }

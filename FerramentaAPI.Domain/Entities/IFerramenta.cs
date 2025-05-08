@@ -8,11 +8,12 @@ using FerramentaAPI.Domain.ValueObjects;
 
 namespace FerramentaAPI.Domain.Entities {
     public interface IFerramenta {
-        EnderecoFerramenta Endereco { get; set; }
-        Descricao Descricao { get; set; }
-        double Diametro { get; set; }
-        double Altura { get; set; }
-        TipoFerramenta Tipo { get; set; }
+        int Id { get; }
+        EnderecoFerramenta Endereco { get; }
+        Descricao Descricao { get; }
+        double Diametro { get; }
+        double Altura { get; }
+        TipoFerramenta Tipo { get; }
         string Path();
     }
 }
